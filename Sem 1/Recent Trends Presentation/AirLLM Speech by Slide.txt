@@ -1,0 +1,39 @@
+Slide 1:
+========
+Hello, I am Popat Bhavya Balkrishnabhai, enrollment number 15616226003, PhD Semester 1. My recent-trends topic is AirLLM, an open-source library that runs very large language models on small GPUs by streaming them from disk one layer at a time. The progress bar under the title stands for the model's 80 decoder layers; watch it travel through the whole talk.
+
+Slide 2:
+========
+Eight modules: the memory problem, the key insight, the architecture, the inference loop, how it scales to mixture-of-experts models, the latency trade-off, related work, and the takeaways.
+
+Slide 3:
+========
+In fp16 (floating point 16 - a 16-bit computer number format used to represent real numbers in binary form) every parameter takes 2 bytes, so a 70B model needs about 140 GB for its weights alone. Consumer GPUs have 4 to 24 GB. Loading the checkpoint the traditional way therefore fails with a CUDA out-of-memory error before the first token is generated. This is spatial memory: every layer must be resident at the same time.
+
+Slide 4:
+========
+The key observation: a transformer's decoder layers run strictly in sequence. Layer N needs only its own weights and the hidden state coming out of layer N-1. So instead of holding every layer in space, AirLLM reuses the same small piece of VRAM over time. One 70B decoder layer has about 0.86 billion parameters, roughly 1.7 GB in fp16.
+
+Slide 5:
+========
+On first use AirLLM splits the checkpoint into one shard per layer on disk. During inference, shards move through three tiers: disk, a pinned CPU-RAM buffer used for prefetching, and the GPU, which only ever holds the active layer. From the outside it looks like a normal Hugging Face model: AutoModel.from_pretrained, then generate.
+
+Slide 6:
+========
+For every generated token AirLLM walks all 80 layers: compute layer N on the GPU, evict its weights, and bring in layer N+1. Since version 2.5, prefetching overlaps the disk read of layer N+1 with the compute of layer N; the README reports about a 10% speed-up. The cost is that every token re-reads the whole model.
+
+Slide 7:
+========
+The same idea scales to frontier models when fewer bytes move per token. The AirLLM README reports Kimi K3, a 2.8-trillion-parameter mixture-of-experts model with 16 of 896 experts active per token, running in about 3.72 GB, and DeepSeek-V3 (671B) in about 12 GB; these are the author's own measurements. For Kimi K3 only the routed experts are streamed; other MoE models still stream whole layers. The optional 4-bit or 8-bit block-wise compression quantizes only the weights. The README claims up to a 3x speed-up, but GitHub issue #330 reports slowdowns because compression disables prefetching.
+
+Slide 8:
+========
+The honest trade-off. At 16-bit, a 70B model takes on the order of two minutes per token; about 25 seconds with 4-bit shards and a warm OS page cache; a quantized llama.cpp build is around 3.4 seconds per token but needs about 44 GB of system RAM. These figures are indicative and depend heavily on disk bandwidth: every token streams all 80 layers again. AirLLM is for access, not speed.
+
+Slide 9:
+========
+AirLLM belongs to a family of techniques for running big models on small hardware. FlexGen offloads weights and KV cache across GPU, CPU and disk and optimizes throughput for batch jobs. DeepSpeed ZeRO-Inference streams weights from CPU memory or NVMe. llama.cpp relies on quantization and memory-mapped GGUF files. PowerInfer keeps frequently activated 'hot' neurons on the GPU. Hugging Face Accelerate can offload layers that do not fit automatically.
+
+Slide 10:
+=========
+Three takeaways. First, AirLLM cuts the VRAM requirement to roughly one layer instead of the whole model. Second, disk bandwidth becomes the new bottleneck. Third, it trades latency for accessibility, which makes it a research and batch tool rather than a chat server. Thank you; I am happy to take questions.

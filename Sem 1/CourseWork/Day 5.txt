@@ -1,0 +1,5 @@
+For the results of parametric to be valid, the following four assumptions should be met:
+1. Normality: Data in each group should be normally distributed
+2. Equal Variance: Data in each group should have approximately equal variance
+3. Independence: Data in each group should be randomly and independently sampled from the population
+4. No Outliers: There should be no extreme outliers
