@@ -3,3 +3,11 @@ For the results of parametric to be valid, the following four assumptions should
 2. Equal Variance: Data in each group should have approximately equal variance
 3. Independence: Data in each group should be randomly and independently sampled from the population
 4. No Outliers: There should be no extreme outliers
+
+Shapiro Wilk Test is most important test for Normality
+p-Value is less than 0.05 then its not normal (not normally distributed)
+if p-Value is more than 0.05 then its normal (normally distributed)
+
+When there is normality problem, Wilcoxon signed-rank test is used.
+
+when you want to see the effect of two independent categorical variables (and their interaction) on one continuous dependent variable you use two way factorial ANOVA
