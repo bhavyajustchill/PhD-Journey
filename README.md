@@ -41,7 +41,6 @@ Enterprise User
 ## Repository Layout
 
 ```
-.
 ├── Sem 1/
 │   ├── Assignments/                 # one folder per assignment, named DD-MM-YYYY
 │   ├── CourseWork/
