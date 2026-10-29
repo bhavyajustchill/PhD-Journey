@@ -2,8 +2,7 @@
 
 I'm Bhavya Popat, a PhD scholar in Computer Science at **Atmiya University**. This repository is a public record of my PhD as it happens: coursework notes, assignments, presentations and milestone documents, added semester by semester.
 
-**Enrollment No.:** 261881003 · **Registration No.:** 15616226003 · **Currently:** Semester 1
-
+**Enrollment No.:** 261881003 · **Registration No.:** 15616226003
 ---
 
 ## Research
@@ -39,24 +38,6 @@ Enterprise User
 
 ---
 
-## What's Inside
-
-### Semester 1
-
-| Folder | Contents |
-| --- | --- |
-| [Proposal Presentation](Sem%201/Proposal%20Presentation) | Doctoral research proposal deck (PPTX + PDF) |
-| [Recent Trends Presentation](Sem%201/Recent%20Trends%20Presentation) | A talk on **AirLLM**, which runs 70B-parameter LLMs on a 4 GB GPU by streaming one decoder layer at a time from disk. Includes the deck, a slide-by-slide speaker script, and the fonts needed to render it on Linux |
-| [Assignments](Sem%201/Assignments) | `12-08-2026`: webinar summary report with session screenshots<br>`12-09-2026`: Scopus CiteScore ranking of Strategy & Management journals (2025) |
-| [CourseWork](Sem%201/CourseWork) | Lecture notes, e.g. parametric test assumptions, the Shapiro–Wilk test, the Wilcoxon signed-rank test, two-way factorial ANOVA |
-| [Docs](Sem%201/Docs) | Consent letter, Semester 1 NoC, and online course certificates: *Research Methodology*, *Research and Publication Ethics*, *AI and Engineering Economics for Managers* |
-
-### Miscellaneous
-
-[`_misc`](_misc) holds the university's checklist of documents research scholars must submit, the file-naming prefix, and logo assets.
-
----
-
 ## Repository Layout
 
 ```
@@ -65,10 +46,10 @@ Enterprise User
 │   ├── Assignments/                 # one folder per assignment, named DD-MM-YYYY
 │   ├── CourseWork/
 │   ├── Docs/
-│   │   └── Online Courses/
+│   │   └── Online Courses/	     # if applicable
 │   ├── Proposal Presentation/
 │   └── Recent Trends Presentation/
-└── _misc/
+│   └── _misc/
 ```
 
 Each new semester gets its own `Sem N/` folder with the same structure.
